@@ -64,7 +64,10 @@ public class CursomcApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		Categoria cat1 = new Categoria(null, "Informática");
-		Categoria cat2 = new Categoria(null, "Informática");		
+		Categoria cat2 = new Categoria(null, "categoria 2");	
+		Categoria cat3 = new Categoria(null, "categoria fuderosa");
+		Categoria cat4 = new Categoria(null, "jardinagem");
+		Categoria cat5 = new Categoria(null, "Trecos");
 		
 		Produto p1 = new Produto(null, "computADOR", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 1000.00);
@@ -93,7 +96,7 @@ public class CursomcApplication implements CommandLineRunner{
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 		
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "3452345", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "3452345", TipoCliente.PESSOAFISICA,"1234");
 		cli1.getTelefones().addAll(Arrays.asList("234234", "234243"));
 		Endereco e1 = new Endereco(null, "rua asdf", "123", "324", "2", "324234", cli1, c1);
 		Endereco e2 = new Endereco(null, "rua hwerwwe", "2341", "2", "2", "453333333", cli1, c2);
