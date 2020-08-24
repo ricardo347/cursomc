@@ -2,6 +2,8 @@ package br.com.zerosystems.cursomc.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
 public class ClienteNewDTO implements Serializable{
 
 	/**
@@ -12,6 +14,9 @@ public class ClienteNewDTO implements Serializable{
 	private String email;
 	private String cpfOuCnpj;
 	private Integer tipo;
+	
+	@NotEmpty
+	private String senha;
 	
 	private String logradouro;
 	private String numero;
@@ -132,6 +137,16 @@ public class ClienteNewDTO implements Serializable{
 	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
 	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
+	
 	
 	
 }

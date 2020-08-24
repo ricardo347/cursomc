@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.zerosystems.cursomc.domain.Categoria;
 import br.com.zerosystems.cursomc.domain.Cidade;
@@ -19,6 +20,7 @@ import br.com.zerosystems.cursomc.domain.PagamentoComCartao;
 import br.com.zerosystems.cursomc.domain.Pedido;
 import br.com.zerosystems.cursomc.domain.Produto;
 import br.com.zerosystems.cursomc.domain.enums.EstadoPagamento;
+import br.com.zerosystems.cursomc.domain.enums.Perfil;
 import br.com.zerosystems.cursomc.domain.enums.TipoCliente;
 import br.com.zerosystems.cursomc.repositories.CategoriaRepository;
 import br.com.zerosystems.cursomc.repositories.CidadeRepository;
@@ -32,6 +34,9 @@ import br.com.zerosystems.cursomc.repositories.ProdutoRepository;
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner{
 
+	@Autowired
+	private BCryptPasswordEncoder pe;
+	
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
@@ -96,14 +101,18 @@ public class CursomcApplication implements CommandLineRunner{
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 		
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "3452345", TipoCliente.PESSOAFISICA,"1234");
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "3452345", TipoCliente.PESSOAFISICA, pe.encode("1234"));
 		cli1.getTelefones().addAll(Arrays.asList("234234", "234243"));
 		Endereco e1 = new Endereco(null, "rua asdf", "123", "324", "2", "324234", cli1, c1);
 		Endereco e2 = new Endereco(null, "rua hwerwwe", "2341", "2", "2", "453333333", cli1, c2);
 		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
 		
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1,e2));
+		Cliente cli2 = new Cliente(null, "Ana Joana", "maria@gmail.com", "35674567", TipoCliente.PESSOAFISICA, pe.encode("1234"));
+		cli2.addPerfil(Perfil.ADMIN);
+		Endereco e3 = new Endereco(null, "rua viahdsfa", "masdf@gmail.com", "2", "2", "453333333", cli2, c2);
+		
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2,e3));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		

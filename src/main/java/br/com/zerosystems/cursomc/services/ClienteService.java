@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.zerosystems.cursomc.domain.Cidade;
@@ -26,12 +27,16 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repo;
+
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
 	@Autowired
-	private CidadeRepository cidadeRepository;	
+	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	
 	public Cliente find(Integer id) {
@@ -43,7 +48,8 @@ public class ClienteService {
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
 		obj = repo.save(obj);
-		enderecoRepository.saveAll(obj.getEnderecos());		
+		enderecoRepository.saveAll(obj.getEnderecos());
+	
 		return repo.save(obj);
 	}
 	
@@ -83,7 +89,7 @@ public class ClienteService {
 				,objDTO.getEmail()
 				,objDTO.getCpfOuCnpj(),
 				TipoCliente.toEnum(objDTO.getTipo()),
-				null				
+				pe.encode(objDTO.getSenha())				
 				);
 		Endereco end = new Endereco(null
 				, objDTO.getLogradouro()
